@@ -1017,6 +1017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragManager
   icon: {fileID: 1654041778}
+  canvas: {fileID: 1374185433}
 --- !u!4 &702404066
 Transform:
   m_ObjectHideFlags: 0
