@@ -11,34 +11,53 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
     }
 
     [SerializeField] private Image icon;
-    private ItemInfo info;
+    private ItemInfo draggedItem;
+    private Cell sourceCell;
+    private bool dropSuccessful;
 
-
-    public void FillInfo(ItemInfo NewInfo)
+    public void StartDrag(ItemInfo item, Cell source)
     {
-        info = NewInfo;
+        draggedItem = item;
+        sourceCell = source;
+        dropSuccessful = false;
+
         icon.gameObject.SetActive(true);
-        icon.sprite = info.icon;
-    }
-
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        
-    }
-
-    public void Off()
-    {
-        info = null;
-        icon.gameObject.SetActive(false);
+        icon.sprite = item.icon;
     }
 
     public void Move(Vector2 pos)
     {
-        
         icon.transform.position = pos;
     }
-    
+
+    public void MarkDropSuccessful()
+    {
+        dropSuccessful = true;
+    }
+
+    public bool WasDropSuccessful()
+    {
+        return dropSuccessful;
+    }
+
+    public ItemInfo GetDraggedItem()
+    {
+        return draggedItem;
+    }
+
+    public void EndDrag()
+    {
+        draggedItem = null;
+        sourceCell = null;
+        dropSuccessful = false;
+        icon.gameObject.SetActive(false);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
        // transform.position = eventData.position;
@@ -46,7 +65,7 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
-        
+
+
     }
 }
