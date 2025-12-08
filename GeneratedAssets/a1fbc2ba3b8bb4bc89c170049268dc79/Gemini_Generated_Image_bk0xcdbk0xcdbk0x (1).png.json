@@ -1,0 +1,20 @@
+{
+    "asset": "a1fbc2ba3b8bb4bc89c170049268dc79",
+    "fileName": "Gemini_Generated_Image_bk0xcdbk0xcdbk0x (1).png",
+    "prompt": "",
+    "negativePrompt": "",
+    "model": "",
+    "modelName": "",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0
+}
