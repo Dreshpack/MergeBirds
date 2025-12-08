@@ -91,10 +91,25 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         // Check if this cell is free
         if (IsFree())
         {
-            // Accept the drop
+            // Accept the drop - move bird to empty cell
             SetNewItem(droppedItem);
             DragManager.Instance.MarkDropSuccessful();
         }
-        // If cell is not free, do nothing (drop will fail and item returns to source)
+        // Check if this cell has the same bird (merge condition)
+        else if (currentItem.number == droppedItem.number)
+        {
+            // Merge the birds - upgrade to next level
+            ItemInfo mergedBird = ItemsManager.Instance.MergeItems(currentItem);
+
+            if (mergedBird != null)
+            {
+                SetNewItem(mergedBird);
+                DragManager.Instance.MarkDropSuccessful();
+
+                // Optional: Play animation
+                bird.Animate();
+            }
+        }
+        // If cell has different bird, do nothing (drop will fail and item returns to source)
     }
 }

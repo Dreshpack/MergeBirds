@@ -11,6 +11,16 @@ public class ItemsManager : Singleton<ItemsManager>
 
     public ItemInfo MergeItems(ItemInfo mergedItem)
     {
-        return allItems[mergedItem.number + 1];
+        int nextBirdIndex = mergedItem.number + 1;
+
+        // Check if next bird exists in the list
+        if (nextBirdIndex < allItems.Count && allItems[nextBirdIndex] != null)
+        {
+            return allItems[nextBirdIndex];
+        }
+
+        // Return null if there's no next bird (max level reached)
+        Debug.LogWarning($"Cannot merge bird at level {mergedItem.number} - max level reached or next bird not configured.");
+        return null;
     }
 }
