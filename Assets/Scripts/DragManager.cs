@@ -11,6 +11,8 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
     }
 
     [SerializeField] private Image icon;
+    [SerializeField] private Canvas canvas;
+    private RectTransform iconRectTransform;
     private ItemInfo draggedItem;
     private Cell sourceCell;
     private bool dropSuccessful;
@@ -21,13 +23,28 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
         sourceCell = source;
         dropSuccessful = false;
 
+        if (iconRectTransform == null)
+            iconRectTransform = icon.GetComponent<RectTransform>();
+
         icon.gameObject.SetActive(true);
         icon.sprite = item.icon;
     }
 
-    public void Move(Vector2 pos)
+    public void Move(Vector2 screenPosition)
     {
-        icon.transform.position = pos;
+        if (canvas == null || iconRectTransform == null)
+            return;
+
+        // Convert screen position to canvas position
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            screenPosition,
+            canvas.worldCamera,
+            out localPoint
+        );
+
+        iconRectTransform.localPosition = localPoint;
     }
 
     public void MarkDropSuccessful()
