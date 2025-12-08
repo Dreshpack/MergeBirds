@@ -28,6 +28,9 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
 
         icon.gameObject.SetActive(true);
         icon.sprite = item.icon;
+
+        // Disable raycast target so it doesn't block drops
+        icon.raycastTarget = false;
     }
 
     public void Move(Vector2 screenPosition)
@@ -68,6 +71,9 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
         sourceCell = null;
         dropSuccessful = false;
         icon.gameObject.SetActive(false);
+
+        // Re-enable raycast target for next drag
+        icon.raycastTarget = true;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
