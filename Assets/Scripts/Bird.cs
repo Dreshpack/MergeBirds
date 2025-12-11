@@ -9,10 +9,15 @@ public class Bird : MonoBehaviour
 
     private void Start()
     {
-        // Ensure icon is disabled by default to prevent flash on initialization
+        // Ensure icon and animator are disabled by default to prevent flash on initialization
         if (icon != null)
         {
             icon.enabled = false;
+        }
+
+        if (animator != null)
+        {
+            animator.enabled = false;
         }
     }
 
@@ -24,6 +29,12 @@ public class Bird : MonoBehaviour
     public void TurnOffImage()
     {
         icon.enabled = false;
+
+        // Disable animator when no bird to prevent unwanted state changes
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
     }
 
     public void SetBird(ItemInfo id)
@@ -31,7 +42,13 @@ public class Bird : MonoBehaviour
         birdId = id.number;
         icon.sprite = id.icon;
 
-        // Set animator state FIRST before enabling icon
+        // Enable animator first
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
+
+        // Set animator state BEFORE enabling icon
         animator.SetInteger("birdId", birdId);
 
         // Force animator to update immediately to prevent showing wrong sprite
