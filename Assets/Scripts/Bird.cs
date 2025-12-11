@@ -30,7 +30,14 @@ public class Bird : MonoBehaviour
     {
         birdId = id.number;
         icon.sprite = id.icon;
-        icon.enabled = true;
+
+        // Set animator state FIRST before enabling icon
         animator.SetInteger("birdId", birdId);
+
+        // Force animator to update immediately to prevent showing wrong sprite
+        animator.Update(0f);
+
+        // Now enable the icon with correct animation state
+        icon.enabled = true;
     }
 }
