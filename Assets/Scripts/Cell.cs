@@ -10,8 +10,23 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public ItemInfo currentItem;
     private ItemInfo tempDraggedItem; // Store temporarily during drag
 
+    private void Start()
+    {
+        // Initialize cell state on start
+        UpdateBirdDisplay();
+    }
+
     private void OnEnable()
     {
+        // Update bird display when cell is enabled
+        UpdateBirdDisplay();
+    }
+
+    private void UpdateBirdDisplay()
+    {
+        if (bird == null)
+            return;
+
         if (IsFree())
         {
             bird.TurnOffImage();
