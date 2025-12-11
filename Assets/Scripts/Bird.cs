@@ -42,13 +42,22 @@ public class Bird : MonoBehaviour
         birdId = id.number;
         icon.sprite = id.icon;
 
-        // Enable animator first
+        // Disable animator first to reset state and prevent flash of old animation
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+
+        // Disable icon while we update animator state
+        icon.enabled = false;
+
+        // Re-enable animator with fresh state
         if (animator != null)
         {
             animator.enabled = true;
         }
 
-        // Set animator state BEFORE enabling icon
+        // Set animator state
         animator.SetInteger("birdId", birdId);
 
         // Force animator to update immediately to prevent showing wrong sprite
