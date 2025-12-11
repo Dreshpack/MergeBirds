@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bad68106cab444e382be75c0795abe6, type: 3}
-  m_Name: Pegeon
+  m_Name: Sparrow
   m_EditorClassIdentifier: Assembly-CSharp::ItemInfo
-  icon: {fileID: -8133553795398199912, guid: 5004e3ab16555448494e31b4722f5c96, type: 3}
-  income: 1
-  number: 0
+  icon: {fileID: 4444567991281808823, guid: 9db52a1e47ade49fa9f26d126dbcf101, type: 3}
+  income: 2
+  number: 1
   soundOnSpawn: {fileID: 0}

@@ -11,34 +11,76 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
     }
 
     [SerializeField] private Image icon;
-    private ItemInfo info;
+    [SerializeField] private Canvas canvas;
+    private RectTransform iconRectTransform;
+    private ItemInfo draggedItem;
+    private Cell sourceCell;
+    private bool dropSuccessful;
 
-
-    public void FillInfo(ItemInfo NewInfo)
+    public void StartDrag(ItemInfo item, Cell source)
     {
-        info = NewInfo;
+        draggedItem = item;
+        sourceCell = source;
+        dropSuccessful = false;
+
+        if (iconRectTransform == null)
+            iconRectTransform = icon.GetComponent<RectTransform>();
+
         icon.gameObject.SetActive(true);
-        icon.sprite = info.icon;
+        icon.sprite = item.icon;
+
+        // Disable raycast target so it doesn't block drops
+        icon.raycastTarget = false;
     }
 
+    public void Move(Vector2 screenPosition)
+    {
+        if (canvas == null || iconRectTransform == null)
+            return;
+
+        // Convert screen position to canvas position
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform,
+            screenPosition,
+            canvas.worldCamera,
+            out localPoint
+        );
+
+        iconRectTransform.localPosition = localPoint;
+    }
+
+    public void MarkDropSuccessful()
+    {
+        dropSuccessful = true;
+    }
+
+    public bool WasDropSuccessful()
+    {
+        return dropSuccessful;
+    }
+
+    public ItemInfo GetDraggedItem()
+    {
+        return draggedItem;
+    }
+
+    public void EndDrag()
+    {
+        draggedItem = null;
+        sourceCell = null;
+        dropSuccessful = false;
+        icon.gameObject.SetActive(false);
+
+        // Re-enable raycast target for next drag
+        icon.raycastTarget = true;
+    }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        
+
     }
 
-    public void Off()
-    {
-        info = null;
-        icon.gameObject.SetActive(false);
-    }
-
-    public void Move(Vector2 pos)
-    {
-        
-        icon.transform.position = pos;
-    }
-    
     public void OnDrag(PointerEventData eventData)
     {
        // transform.position = eventData.position;
@@ -46,7 +88,7 @@ public class DragManager : Singleton<DragManager>, IBeginDragHandler, IEndDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        
-        
+
+
     }
 }

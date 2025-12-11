@@ -5,20 +5,35 @@ using UnityEngine.UI;
 
 public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-   // [SerializeField] private Image icon;
     [SerializeField] private Bird bird;
-    
+
     public ItemInfo currentItem;
+    private ItemInfo tempDraggedItem; // Store temporarily during drag
+
+    private void Start()
+    {
+        // Initialize cell state on start
+        UpdateBirdDisplay();
+    }
 
     private void OnEnable()
     {
+        // Update bird display when cell is enabled
+        UpdateBirdDisplay();
+    }
+
+    private void UpdateBirdDisplay()
+    {
+        if (bird == null)
+            return;
+
         if (IsFree())
         {
             bird.TurnOffImage();
         }
         else
         {
-            bird.SetBird(currentItem.number);
+            bird.SetBird(currentItem);
         }
     }
 
@@ -31,18 +46,12 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         currentItem = null;
         bird.TurnOffImage();
-       // icon.gameObject.SetActive(false);
     }
 
     public void SetNewItem(ItemInfo newItem)
     {
-        if (IsFree())
-        {
-            currentItem = newItem;
-            bird.SetBird(newItem.number);
-            //icon.gameObject.SetActive(true);
-           // icon.sprite = currentItem.icon;
-        }
+        currentItem = newItem;
+        bird.SetBird(newItem);
     }
 
 
@@ -50,27 +59,72 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (IsFree())
             return;
-        
-        DragManager.Instance.FillInfo(currentItem);
+
+        // Store item temporarily and clear the cell visually
+        tempDraggedItem = currentItem;
+        DragManager.Instance.StartDrag(currentItem, this);
+
+        // Clear the cell
+        currentItem = null;
+        bird.TurnOffImage();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-       // throw new System.NotImplementedException();
-       DragManager.Instance.Move(eventData.position);
-       Debug.Log("Dragging");
+        if (tempDraggedItem == null)
+            return;
+
+        DragManager.Instance.Move(eventData.position);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        DragManager.Instance.Off();
-        Debug.Log("End");
-       // throw new System.NotImplementedException();
-       
+        if (tempDraggedItem == null)
+            return;
+
+        // Check if drop was successful
+        if (!DragManager.Instance.WasDropSuccessful())
+        {
+            // Drop failed or dropped on invalid target, restore the item
+            currentItem = tempDraggedItem;
+            bird.SetBird(currentItem);
+        }
+
+        // Clear temporary storage and end drag
+        tempDraggedItem = null;
+        DragManager.Instance.EndDrag();
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-       // throw new System.NotImplementedException();
+        // Get the item being dragged
+        ItemInfo droppedItem = DragManager.Instance.GetDraggedItem();
+
+        if (droppedItem == null)
+            return;
+
+        // Check if this cell is free
+        if (IsFree())
+        {
+            // Accept the drop - move bird to empty cell
+            SetNewItem(droppedItem);
+            DragManager.Instance.MarkDropSuccessful();
+        }
+        // Check if this cell has the same bird (merge condition)
+        else if (currentItem.number == droppedItem.number)
+        {
+            // Merge the birds - upgrade to next level
+            ItemInfo mergedBird = ItemsManager.Instance.MergeItems(currentItem);
+
+            if (mergedBird != null)
+            {
+                SetNewItem(mergedBird);
+                DragManager.Instance.MarkDropSuccessful();
+
+                // Optional: Play animation
+                //bird.Animate();
+            }
+        }
+        // If cell has different bird, do nothing (drop will fail and item returns to source)
     }
 }
