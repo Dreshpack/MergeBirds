@@ -122,7 +122,7 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
                 DragManager.Instance.MarkDropSuccessful();
 
                 // Optional: Play animation
-                bird.Animate();
+                //bird.Animate();
             }
         }
         // If cell has different bird, do nothing (drop will fail and item returns to source)

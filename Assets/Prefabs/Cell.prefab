@@ -176,7 +176,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3119713134589280627}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: f05be689d9b324ee1b59a78208e0fd92, type: 2}
   m_CullingMode: 0
@@ -203,5 +203,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bird
   icon: {fileID: 5993332186875209583}
-  animator: {fileID: 6283568336887875839}
   birdId: 0

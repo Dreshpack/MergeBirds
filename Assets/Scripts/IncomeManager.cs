@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -5,17 +6,26 @@ public class IncomeManager : Singleton<IncomeManager>
 {
     [Header("Balance Settings")]
     [SerializeField] private TextMeshProUGUI balanceText;
-    [SerializeField] private int startingBalance = 0;
+
+    [SerializeField] private TextMeshProUGUI incomePerSec;
+    
 
     private Cell[] allCells;
     private int currentBalance;
     private float incomeTimer = 0f;
-    private const float INCOME_INTERVAL = 1f; // Add income every second
+    private const float INCOME_INTERVAL = 1f;
+    // Add income every second
 
     protected override void Awake()
     {
         base.Awake();
-        currentBalance = startingBalance;
+        currentBalance = PlayerPrefs.GetInt("balance", 0);
+    }
+
+    private void OnDisable()
+    {
+        PlayerPrefs.SetInt("balance", currentBalance);
+        PlayerPrefs.Save();
     }
 
     private void Start()
@@ -50,6 +60,7 @@ public class IncomeManager : Singleton<IncomeManager>
     {
         int income = GetTotalIncome();
 
+        incomePerSec.text = $"{income}/s";
         if (income > 0)
         {
             currentBalance += income;
@@ -64,7 +75,7 @@ public class IncomeManager : Singleton<IncomeManager>
     {
         if (balanceText != null)
         {
-            balanceText.text = $"${currentBalance}";
+            balanceText.text = $"{currentBalance}";
         }
     }
 
