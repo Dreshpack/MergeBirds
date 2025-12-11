@@ -26,9 +26,10 @@ public class Bird : MonoBehaviour
         icon.enabled = false;
     }
 
-    public void SetBird(int id)
+    public void SetBird(ItemInfo id)
     {
-        birdId = id;
+        birdId = id.number;
+        icon.sprite = id.icon;
         icon.enabled = true;
         animator.SetInteger("birdId", birdId);
     }

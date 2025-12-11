@@ -33,7 +33,7 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
         else
         {
-            bird.SetBird(currentItem.number);
+            bird.SetBird(currentItem);
         }
     }
 
@@ -51,7 +51,7 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void SetNewItem(ItemInfo newItem)
     {
         currentItem = newItem;
-        bird.SetBird(newItem.number);
+        bird.SetBird(newItem);
     }
 
 
@@ -87,7 +87,7 @@ public class Cell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         {
             // Drop failed or dropped on invalid target, restore the item
             currentItem = tempDraggedItem;
-            bird.SetBird(currentItem.number);
+            bird.SetBird(currentItem);
         }
 
         // Clear temporary storage and end drag
