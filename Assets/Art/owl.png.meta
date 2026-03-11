@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: ced71e0f7a49f4ce79cb9e5006a303ab
+guid: 45efa8729d4434899a1dee889add3fe3
 labels:
 - UnityAI
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2121816281483639118
-    second: Gemini_Generated_Image_okjyn2okjyn2okjy_0
+      213: -7539039167046152326
+    second: Gemini_Generated_Image_tbl0j7tbl0j7tbl0_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_okjyn2okjyn2okjy_0
+      name: Gemini_Generated_Image_tbl0j7tbl0j7tbl0_0
       rect:
         serializedVersion: 2
         x: 0
@@ -130,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2b60787755bcd82e0800000000000000
-      internalID: -2121816281483639118
+      spriteID: a7f057432d3ff5790800000000000000
+      internalID: -7539039167046152326
       vertices: []
       indices: 
       edges: []
@@ -150,7 +150,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gemini_Generated_Image_okjyn2okjyn2okjy_0: -2121816281483639118
+      Gemini_Generated_Image_tbl0j7tbl0j7tbl0_0: -7539039167046152326
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
